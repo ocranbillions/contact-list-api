@@ -1,0 +1,31 @@
+{
+  "name": "contact-list-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon --exec babel-node src/app.js",
+    "build": "babel -d ./dist ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocranbillions/contact-list-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ocranbillions/contact-list-api/issues"
+  },
+  "homepage": "https://github.com/ocranbillions/contact-list-api#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "nodemon": "^2.0.15"
+  }
+}
