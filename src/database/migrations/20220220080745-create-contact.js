@@ -21,6 +21,11 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.STRING
       },
+      isOldContact: {
+        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

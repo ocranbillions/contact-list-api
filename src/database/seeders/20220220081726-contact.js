@@ -8,12 +8,14 @@ module.exports = {
         lastName: 'Doe',
         email: 'john_doe@gmail.com',
         phoneNumber: '+2348093833748',
+        isOldContact: false
       },
       {
         firstName: 'Jane',
         lastName: 'Doe',
         email: 'jane_doe@gmail.com',
         phoneNumber: '+2347033889900',
+        isOldContact: false
       }
     ], {});
   },

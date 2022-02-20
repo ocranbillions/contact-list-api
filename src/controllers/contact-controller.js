@@ -24,7 +24,15 @@ export const createContact = async (req, res, next) => {
 
 export const getContacts = async (req, res, next) => {
   try {
-    const contacts = await Contact.findAll();
+    const contacts = await Contact.findAll({
+      where: { isOldContact: false },
+      include: [
+        {
+          model: Contact,
+          as: 'history',
+        },
+      ],
+    });
 
     return res.status(200).json({ data: contacts });
   } catch (error) {
@@ -36,7 +44,15 @@ export const getContact = async (req, res, next) => {
   const { contactId } = req.params;
 
   try {
-    const [contact] = await Contact.findAll({ where: { id: contactId } });
+    const contact = await Contact.findOne({
+      where: { id: contactId },
+      include: [
+        {
+          model: Contact,
+          as: 'history',
+        },
+      ],
+    });
 
     if (!contact) return res.status(404).json({ error: 'Contact not found' });
 
@@ -56,22 +72,30 @@ export const updateContact = async (req, res, next) => {
   } = req.body;
 
   try {
-    const result = await Contact.update(
+    const contact = await Contact.findByPk(contactId);
+
+    if (!contact) return res.status(404).json({ error: 'Contact not found' });
+
+    await Contact.update(
       {
         firstName,
         lastName,
         email,
         phoneNumber,
       },
-      {
-        where: { id: contactId },
-        returning: true,
-      },
+      { where: { id: contactId } },
     );
 
-    if (!result[0]) return res.status(404).json({ error: 'Contact not found' });
+    // Save old contact data
+    const oldDetails = await Contact.create({
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      phoneNumber: contact.phoneNumber,
+      isOldContact: true,
+    });
 
-    const contact = result[1][0];
+    await contact.addHistory(oldDetails);
 
     return res.status(200).json({ data: contact });
   } catch (error) {

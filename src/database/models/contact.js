@@ -11,6 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Contact.belongsToMany(models.Contact, {
+        foreignKey: 'parentId',
+        otherKey: 'contactId',
+        as: 'history',
+        through: 'ContactHistory',
+        timestamps: false,
+      });
+      models.Contact.belongsToMany(models.Contact, {
+        foreignKey: 'contactId',
+        otherKey: 'parentId',
+        as: 'parentContact',
+        through: 'ContactHistory',
+        timestamps: false,
+      });
+      
     }
   }
   Contact.init({
@@ -18,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
+    isOldContact: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Contact',
