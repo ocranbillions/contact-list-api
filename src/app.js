@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/contacts', contactRoutes);
 
 app.get('*', (req, res) => {
-  res.send('Route does not exist');
+  res.status(404).json({ error: 'Route does not exist' });
 });
 
 // eslint-disable-next-line no-unused-vars
